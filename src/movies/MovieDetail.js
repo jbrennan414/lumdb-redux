@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { Poster } from './Movie';
 import styled from 'styled-components';
 import Overdrive from 'react-overdrive';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getMovie } from './actions';
 
 const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280'
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154'
@@ -14,21 +17,14 @@ class MovieDetail extends Component {
   }
 
   
-  async componentDidMount(){
-    try {
-      //themoviedb.org...get your own 😉
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`)
-      const movie = await res.json();
-      this.setState({
-        movie
-      })
-    } catch(e){
-      console.log(e)
-    }
+  componentDidMount(){
+    const { getMovie, match } = this.props;
+      getMovie(match.params.id);
+
   }
 
   render(){
-    const {movie} = this.state;
+    const {movie} = this.props;
     
     return(
       <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`} alt={movie.title}>
@@ -47,7 +43,16 @@ class MovieDetail extends Component {
   };
 }
 
-export default MovieDetail;
+const mapStateToProps = state => ({
+  movie: state.movies.movie,
+  isLoaded: state.movies.movieLoaded,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getMovie,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);
 
 const MovieWrapper = styled.div`
   position:relative;
