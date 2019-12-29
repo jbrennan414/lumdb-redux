@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Overdrive from 'react-overdrive';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getMovie } from './actions';
+import { getMovie, resetMovie } from './actions';
 
 const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280'
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154'
@@ -21,6 +21,10 @@ class MovieDetail extends Component {
     const { getMovie, match } = this.props;
       getMovie(match.params.id);
 
+  }
+
+  componentWillUnmount(){
+    this.props.resetMovie();
   }
 
   render(){
@@ -50,6 +54,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getMovie,
+  resetMovie,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);
