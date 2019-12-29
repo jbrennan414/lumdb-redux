@@ -16,6 +16,7 @@ import MoviesList from './movies/MoviesList';
 import MovieDetail from './movies/MovieDetail';
 import Toggle from './toggle/Toggle';
 import logger from 'redux-logger';
+import { save, load } from 'redux-localstorage-simple';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
@@ -23,8 +24,8 @@ const middleware = [logger, thunk];
 
 const store = createStore(
   rootReducer,
-  {},
-  composeWithDevTools(applyMiddleware(...middleware))
+  load(),
+  composeWithDevTools(applyMiddleware(...middleware, save()))
 )
 
 const App = () => (
