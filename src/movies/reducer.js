@@ -2,6 +2,7 @@ import { GET_MOVIES } from './actions'
 
 const initialState = {
     movies: [],
+    moviesLoaded: false,
 }
 
 export default function(state = initialState, action){
@@ -11,7 +12,8 @@ export default function(state = initialState, action){
         case GET_MOVIES:
             return {
                 ...state,
-                movies: data
+                movies: data,
+                moviesLoaded:true,
             }
         default:
             return state;
