@@ -2,45 +2,37 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Movie from './Movie'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getMovies } from './actions';
 
 class MoviesList extends PureComponent {
 
-  state = {
-    movies: [],
-  }
-
-  async componentDidMount(){
-    try {
-      //themoviedb.org...get your own 😉
-      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`)
-      const movies = await res.json();
-
-      //I know this is a bit wordy, but now I can
-      //just add movies to remove to this array
-      const knownXRated = [
-        "Emmanuelle, Queen of the Galaxy",
-      ];
-
-      const cleanMovies = movies.results.filter(movie => !knownXRated.includes(movie.title));
-
-      this.setState({
-        movies:cleanMovies,
-      })
-    } catch(e){
-      console.log(e)
-    }
+  componentDidMount(){
+    const { getMovies } = this.props;
+    getMovies();
   }
 
   render(){
+    const { movies } = this.props;
+
     return(
         <MovieGrid>
-            {this.state.movies.map(movie => <Movie desc={movie.overview} key={movie.id} movie={movie} />)}
+            {movies.map(movie => <Movie desc={movie.overview} key={movie.id} movie={movie} />)}
         </MovieGrid>
     );
   };
 }
 
-export default MoviesList;
+const mapStateToProps = (state) => ({
+  movies: state.movies.movies
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getMovies
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviesList);
 
 const MovieGrid = styled.div`
   display: flex;
