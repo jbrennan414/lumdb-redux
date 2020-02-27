@@ -1,5 +1,5 @@
 /* eslint react/no-did-mount-set-state: 0 */
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -14,7 +14,6 @@ import logo from './logo.svg';
 import './App.css';
 import MoviesList from './movies/MoviesList';
 import MovieDetail from './movies/MovieDetail';
-import Toggle from './toggle/Toggle';
 import logger from 'redux-logger';
 import { save, load } from 'redux-localstorage-simple';
 import { composeWithDevTools } from 'redux-devtools-extension';

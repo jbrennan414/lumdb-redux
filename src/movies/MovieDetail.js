@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Poster } from './Movie';
 import styled from 'styled-components';
-import Overdrive from 'react-overdrive';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMovie, resetMovie } from './actions';
@@ -33,9 +32,7 @@ class MovieDetail extends Component {
     return(
       <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`} alt={movie.title}>
         <MovieInfo>
-          <Overdrive id={movie.id}>
             <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
-          </Overdrive>
           <div>
             <h1>{movie.title}</h1>
             <h3>{movie.release_date}</h3>

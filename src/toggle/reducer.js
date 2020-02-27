@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export default function(state = initialState, action){
-    const { type, data } = action;
+    const { type } = action;
 
     switch(type){
         case TOGGLE_MESSAGE:
